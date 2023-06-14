@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header"><img class="logo" src="img/coffee_masters_logo.png" width="50px" height="auto">Coffee Masters</header>
+    <div class="container-1">
+        <div class="items-box box-1">
+            <h2 class="box-title">ITEMS</h2>
+            <div class="items-list">
+                <div class="apart">
+                    <h3 class="item">Cappuccino</h3>
+                    <h3 class="price">$3.35</h3>
+                </div>
+                <p class="ingredients">Lite foam</p>
+            </div>
+            <div class="items-list">
+                <div class="apart">
+                    <h3 class="item">Cappuccino</h3>
+                    <h3 class="price">$3.85</h3>
+                </div>
+                <p class="ingredients">Lite milk</p>
+                <p class="ingredients">Double espresso</p>
+            </div>
+            <div class="items-list">
+                <div class="apart">
+                    <h3 class="item">Croissant</h3>
+                    <h3 class="price">$2.45</h3>
+                </div>
+                <p class="ingredients">Butter</p>
+            </div>
+        </div>
+        <div class="items-box box-2">
+            <h2 class="box-title">NAME</h2>
+            <div class="input-box">
+                <label for="name" class="input-label">Name for order</label>
+                <input id="name" type="text">
+            </div>
+        </div>
+        <div class="items-box box-3">
+            <h2 class="box-title">PAYMENT</h2>
+            <div class="input-box">
+                <label for="card" class="input-label">Card number</label>
+                <input id="card" type="text">
+            </div>
+            <div class="input-box">
+                <label for="ccv" class="input-label">CCV Number</label>
+                <input id="ccv" type="text" pattern="[0-9]{3}">
+            </div>
+        </div>
+    </div>
+<div class="summary">
+    <p class="summary-part"><span class="sp1">Subtotal: </span><span class="sp2">$9.65</span></p>
+    <p class="summary-part"><span class="sp1">Tax: </span><span class="sp2">$0.82</span></p>
+    <p class="summary-part"><strong class="sp1">Total: </strong><strong class="sp2">$10.47</strong></p>
+</div>
+<div class="order">
+    <input type="submit" class="input" onclick="thanks()" value="Place order">
+</div>
+    <script src="script.js"></script>
+    <script>
+        function thanks() {
+            alert('Thank you for your order!');
+        }
+    </script>
+</body>
+</html>

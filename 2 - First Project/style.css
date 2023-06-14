@@ -1,0 +1,175 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: aliceblue;
+    margin: 0px;
+}
+
+.header {
+    background-color: #43281C;
+    color: #FBF2C0;
+    text-align: center;
+    padding: 25px 0px;
+    font-size: 2em;
+    width: 100%;
+    margin-bottom: 50px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    font-weight: bold;
+}
+
+.logo {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.box-1 {
+    grid-area: box-1;
+}
+
+.box-2 {
+    grid-area: box-2;
+}
+
+.box-3 {
+    grid-area: box-3;
+}
+
+.container-1 {
+    margin-bottom: 150px;
+    display: grid;
+    grid-template-columns: 10fr 10fr;
+    grid-template-rows: 10fr 10fr 1fr;
+    grid-template-areas:
+        "box-1 box-2"
+        "box-1 box-3"
+        ". box-3";
+}
+
+.items-box {
+    background-color: #ede0d4;
+    border-radius: 12px;
+    padding: 5px 15px;
+    margin: 2% 5%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.box-title {
+    color: #865744bd;
+    font-weight: normal;
+    margin-bottom: 50px;
+}
+
+.apart {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5px 5px 10px;
+}
+
+.ingredients {
+    margin: 0 10px;
+    color: #865744bd
+}
+
+.item,
+.price {
+    margin: 0;
+}
+
+.items-list:not(:last-of-type) {
+    border-bottom: thin solid #865744bd;
+}
+
+.items-list {
+    padding: 30px 0px;
+}
+
+input[type="text"] {
+    background-color: #ede0d4;
+    border: thin solid #865744bd;
+    border-radius: 100px;
+    width: 100%;
+    font-size: 1em;
+    padding: 10px 15px;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-label {
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background-color: #ede0d4;
+    padding: 0 8px;
+    color: #865744bd;
+    font-size: 0.8em;
+}
+
+.item {
+    position: relative;
+}
+
+.item::before {
+    content: "1x";
+    position: absolute;
+    left: -20px;
+    font-weight: normal;
+}
+
+.items-list:first-of-type {
+    padding-top: 0px;
+}
+
+h3 {
+    font-size: 1em;
+}
+
+p {
+    font-size: 0.8em;
+}
+
+.input {
+    width: 90%;
+    height: 50px;
+    border-radius: 100px;
+    background-color: #e9b68c;
+    border: none;
+    color: #865744bd;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 10px auto 50px auto;
+}
+
+.order {
+    text-align: center;
+}
+
+.summary {
+    text-align: center;
+    color: #865744bd;
+    font-size: 1.5em;
+}
+
+.sp1 {
+    display: inline-block;
+    width: 150px;
+    text-align: left;
+}
+
+.sp2 {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}

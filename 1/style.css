@@ -1,4 +1,96 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.title {
+    /* margin: 30px auto;
+    background-color: aqua;
+    width: fit-content; */
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.navbar {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: lightslategray;
+    font-size: 1.5em;
+    font-weight: 800;
+}
+
+.navbar>li {
+    margin: 10px 10px;
+}
+
+.content-row {
+    display: flex;
+}
+
+.article-title,
+.article-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+}
+
+.navbar,
+.article {
+    border: 3px solid black;
+}
+
+.article+.article {
+    border-left: 0px;
+}
+
+.article {
+    border-top: 0px;
+}
+
+.f-1 {
+    flex: 1;
+}
+
+.f-2 {
+    flex: 2;
+}
+
+.f-3 {
+    flex: 3;
+}
+
+.f-5 {
+    flex: 5;
+}
+
+.cl {
+    padding-left: calc(3px * (5 / 7))
+}
+
+.article-content {
+    margin: 10px;
+}
+
+.article-title {
+    margin: 20px;
+}
+
 body {
-    background-color: black;
-    color: gray;
+    width: 95%;
+    margin: auto;
 }
