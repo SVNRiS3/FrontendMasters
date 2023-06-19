@@ -12,10 +12,10 @@ html {
 .calculator {
     display: grid;
     grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(7, 100px);
-    margin: auto;
+    grid-template-rows: repeat(6, 100px);
+    margin: 40px auto;
     width: fit-content;
-    padding: 10px;
+    box-shadow: 15px 15px 15px lightblue;
 }
 
 .calculator-item {
@@ -72,4 +72,8 @@ html {
 
 .calculator-item:hover {
     opacity: 0.8;
+}
+
+.calculator-item:active {
+    filter: brightness(80%)
 }

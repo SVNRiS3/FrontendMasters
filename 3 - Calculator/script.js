@@ -19,6 +19,8 @@ calculator.addEventListener("click", function (event) {
         else if (eT === "=") {
             calculations.push(number);
             for (let i = 0; i < calculations.length - 1; i += 2) {
+                calculations[i] = parseInt(calculations[i]);
+                calculations[i + 2] = parseInt(calculations[i + 2]);
                 if (calculations[i + 1] === "÷")
                     calculations[i + 2] = calculations[i] / calculations[i + 2];
                 else if (calculations[i + 1] === "x")
