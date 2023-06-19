@@ -1,55 +1,97 @@
-const calculatorResult = document.querySelector('.calculator-result');
-const calculator = document.querySelector('.calculator');
+const screen = document.querySelector('.calculator-result');
+let num = "0";
+let totalNum = 0;
+let operator = null;
 
-let calculations = [];
-let number = "0";
-let result = false;
+function handleNumber(number) {
+    if (num === "0")
+        num = number;
+    else
+        num += number;
 
-calculator.addEventListener("click", function (event) {
+};
 
-    const e = event.target;
-    const eT = e.innerText;
+function makeOperation(intNum) {
+    if (operator === "+")
+        totalNum += intNum;
+    else if (operator === "-")
+        totalNum -= intNum;
+    else if (operator === "÷")
+        totalNum /= intNum;
+    else if (operator === "×")
+        totalNum *= intNum;
+}
 
-    if (!e.classList.contains('calculator-result')) {
+function handleOperations(symbol) {
+    if (num === "0") {
+        //do nothing
+        return;
+    };
 
-        if (eT >= 0 || eT <= 10) {
-            (number === "0" || result === true) ? number = eT : number += eT;
-            result = false;
-        }
-        else if (eT === "=") {
-            calculations.push(number);
-            for (let i = 0; i < calculations.length - 1; i += 2) {
-                calculations[i] = parseInt(calculations[i]);
-                calculations[i + 2] = parseInt(calculations[i + 2]);
-                if (calculations[i + 1] === "÷")
-                    calculations[i + 2] = calculations[i] / calculations[i + 2];
-                else if (calculations[i + 1] === "x")
-                    calculations[i + 2] = calculations[i] * calculations[i + 2];
-                else if (calculations[i + 1] === "-")
-                    calculations[i + 2] = calculations[i] - calculations[i + 2];
-                else if (calculations[i + 1] === "+")
-                    calculations[i + 2] = calculations[i] + calculations[i + 2];
-                number = Math.round(calculations[i + 2]).toString();
-            };
-            calculations = [];
-            result = true;
-        }
-        else if (eT === "C") {
-            calculations = [];
-            number = "0";
-        }
-        else if (eT === "←") {
-            if (result = true) {
-                calculations = [];
-                number = "0";
-            } else
-                number.length > 1 ? number = number.slice(0, -1) : number = "0";
-        }
-        else {
-            calculations.push(number);
-            calculations.push(eT);
-            number = "0";
-        }
-        calculatorResult.innerText = parseInt(number);
+    const intNum = parseInt(num);
+    if (totalNum === 0)
+        totalNum = intNum;
+    else
+        makeOperation(intNum);
+
+    operator = symbol;
+    num = "0";
+};
+
+function handleEquasion() {
+    if (num === "0") {
+        //do nothing
+        return;
+    };
+    makeOperation(parseInt(num));
+    operator = null;
+    num = "" + totalNum;
+    totalNum = 0;
+}
+
+function handleSymbol(symbol) {
+    switch (symbol) {
+        case "C":
+            num = "0";
+            break;
+        case "←":
+            if (num.length === 1)
+                num = "0";
+            else
+                num = num.slice(0, -1);
+            break;
+        case "=":
+            handleEquasion();
+            break;
+        case "÷":
+        case "×":
+        case "-":
+        case "+":
+            handleOperations(symbol);
+            break;
+
     }
-});
+};
+
+function buttonEvent(item) {
+    if (isNaN(parseInt(item)))
+        handleSymbol(item);
+    else
+        handleNumber(item);
+    updateResult();
+
+}
+
+function updateResult() {
+    screen.innerText = num;
+};
+
+function init() {
+    document
+        .querySelector('.calculator')
+        .addEventListener("click", function (event) {
+            buttonEvent(event.target.innerText);
+        });
+};
+
+init();
