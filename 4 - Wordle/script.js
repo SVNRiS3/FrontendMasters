@@ -27,14 +27,20 @@ function colorLetters(wordToGuess) {
         let letterToCheck = rowString[i];
         if (wordToGuess.word[i] === letterToCheck) {
             rows[rowCount].childNodes[i].classList.add("letter-place");
-        } else if (wordToGuessString.match(letterToCheck) > 0) {
-            rows[rowCount].childNodes[i].classList.add("letter");
-        } else {
-            rows[rowCount].childNodes[i].classList.add("nothing");
+            wordToGuessString = wordToGuessString.replace(letterToCheck, "");
         };
-        wordToGuessString = wordToGuessString.replace(letterToCheck);
     };
-}
+    for (let i = 0; i < rowString.length; i++) {
+        let letterToCheck = rowString[i];
+        if (!rows[rowCount].childNodes[i].classList.contains("letter-place"))
+            if (wordToGuessString.match(letterToCheck)) {
+                rows[rowCount].childNodes[i].classList.add("letter");
+                wordToGuessString = wordToGuessString.replace(letterToCheck, "");
+            } else {
+                rows[rowCount].childNodes[i].classList.add("nothing");
+            };
+    };
+};
 
 async function processEnter() {
     if (processingInput) return;
