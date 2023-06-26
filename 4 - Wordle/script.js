@@ -73,7 +73,7 @@ function addLetter(letter) {
     rowString += letter;
 };
 
-async function outputResult(wordToGuess) {
+function outputResult(wordToGuess) {
     if (finished === 1) {
         title.classList.add("text-rb");
         result.innerText = `You won!\nThe word was: "${wordToGuess.word}"`;
