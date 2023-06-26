@@ -181,3 +181,17 @@ html {
 .none {
     display: none;
 }
+
+.invalid {
+    animation: flash 1s 2;
+}
+
+@keyframes flash {
+    5% {
+        border-color: crimson;
+    }
+
+    100% {
+        border-color: lightgray;
+    }
+}

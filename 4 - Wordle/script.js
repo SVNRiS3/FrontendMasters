@@ -62,6 +62,8 @@ async function processEnter() {
                 outputResult(wordToGuess);
             };
         };
+    } else {
+        rows[rowCount].childNodes.forEach(elem => elem.classList.add('invalid'));
     };
     waitAnimation.classList.add('none');
     processingInput = false;
