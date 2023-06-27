@@ -1,6 +1,6 @@
 
-let rowString = "";
-let rowCount = 0;
+let currentGuess = "";
+let currentRow = 0;
 let finished = 0;
 let processingInput = false;
 const rows = document.querySelectorAll(".row");
@@ -22,21 +22,21 @@ async function getWord(URL, mtd, data = "") {
 };
 function colorLetters(wordToGuess) {
     let wordToGuessString = wordToGuess.word;
-    for (let i = 0; i < rowString.length; i++) {
-        let letterToCheck = rowString[i];
+    for (let i = 0; i < currentGuess.length; i++) {
+        let letterToCheck = currentGuess[i];
         if (wordToGuess.word[i] === letterToCheck) {
-            rows[rowCount].childNodes[i].classList.add("letter-place");
+            rows[currentRow].childNodes[i].classList.add("letter-place");
             wordToGuessString = wordToGuessString.replace(letterToCheck, "");
         };
     };
-    for (let i = 0; i < rowString.length; i++) {
-        let letterToCheck = rowString[i];
-        if (!rows[rowCount].childNodes[i].classList.contains("letter-place"))
+    for (let i = 0; i < currentGuess.length; i++) {
+        let letterToCheck = currentGuess[i];
+        if (!rows[currentRow].childNodes[i].classList.contains("letter-place"))
             if (wordToGuessString.match(letterToCheck)) {
-                rows[rowCount].childNodes[i].classList.add("letter");
+                rows[currentRow].childNodes[i].classList.add("letter");
                 wordToGuessString = wordToGuessString.replace(letterToCheck, "");
             } else {
-                rows[rowCount].childNodes[i].classList.add("nothing");
+                rows[currentRow].childNodes[i].classList.add("nothing");
             };
     };
 };
@@ -45,35 +45,35 @@ async function processEnter() {
     if (processingInput) return;
     processingInput = true;
     waitAnimation.classList.remove('none');
-    const isValid = await getWord(URLPOST, "POST", { "word": rowString });
+    const isValid = await getWord(URLPOST, "POST", { "word": currentGuess });
     const wordToGuess = await getWord(URLGET, "GET");
     if (isValid.validWord) {
         colorLetters(wordToGuess);
-        if (wordToGuess.word === rowString) {
+        if (wordToGuess.word === currentGuess) {
             finished = 1;
             outputResult(wordToGuess);
         } else {
-            rowString = "";
-            rowCount++;
-            if (rowCount === rows.length) {
+            currentGuess = "";
+            currentRow++;
+            if (currentRow === rows.length) {
                 finished = 2;
                 outputResult(wordToGuess);
             };
         };
     } else {
-        rows[rowCount].childNodes.forEach(elem => elem.classList.add('invalid'));
+        rows[currentRow].childNodes.forEach(elem => elem.classList.add('invalid'));
     };
     waitAnimation.classList.add('none');
     processingInput = false;
 };
 
 function addLetter(letter) {
-    if (rowString.length < 5) {
-        rows[rowCount].childNodes[rowString.length].innerText = letter;
-        rowString += letter;
+    if (currentGuess.length < 5) {
+        rows[currentRow].childNodes[currentGuess.length].innerText = letter;
+        currentGuess += letter;
     } else {
-        rowString = rowString.slice(0, -1);
-        rows[rowCount].childNodes[rowString.length].innerText = letter;
+        currentGuess = currentGuess.slice(0, -1);
+        rows[currentRow].childNodes[currentGuess.length].innerText = letter;
     }
 };
 
@@ -89,8 +89,8 @@ function outputResult(wordToGuess) {
 
 function processBackspace() {
     if (processingInput) return;
-    rowString = rowString.slice(0, -1);
-    rows[rowCount].childNodes[rowString.length].innerText = "";
+    currentGuess = currentGuess.slice(0, -1);
+    rows[currentRow].childNodes[currentGuess.length].innerText = "";
 }
 
 function handleKey(key) {
@@ -99,9 +99,9 @@ function handleKey(key) {
         //hit some key to reset the board
     } else if (regex.test(key.toLowerCase())) {
         addLetter(key);
-    } else if (key === "Enter" && rowString.length === 5) {
+    } else if (key === "Enter" && currentGuess.length === 5) {
         processEnter();
-    } else if (key === "Backspace" && rowString.length > 0) {
+    } else if (key === "Backspace" && currentGuess.length > 0) {
         processBackspace();
     };
 };
