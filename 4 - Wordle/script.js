@@ -1,4 +1,4 @@
-
+const ANSWER_LEN = 5;
 let currentGuess = "";
 let currentRow = 0;
 let finished = 0;
@@ -50,14 +50,12 @@ async function processEnter() {
     if (isValid.validWord) {
         colorLetters(wordToGuess);
         if (wordToGuess.word === currentGuess) {
-            finished = 1;
-            outputResult(wordToGuess);
+            outputResult(wordToGuess, true);
         } else {
             currentGuess = "";
             currentRow++;
             if (currentRow === rows.length) {
-                finished = 2;
-                outputResult(wordToGuess);
+                outputResult(wordToGuess, false);
             };
         };
     } else {
@@ -68,7 +66,8 @@ async function processEnter() {
 };
 
 function addLetter(letter) {
-    if (currentGuess.length < 5) {
+    if (processingInput) return;
+    if (currentGuess.length < ANSWER_LEN) {
         rows[currentRow].childNodes[currentGuess.length].innerText = letter;
         currentGuess += letter;
     } else {
@@ -77,12 +76,11 @@ function addLetter(letter) {
     }
 };
 
-function outputResult(wordToGuess) {
-    if (finished === 1) {
-        title.classList.add("text-rb");
+function outputResult(wordToGuess, isWon) {
+    title.classList.add("text-rb");
+    if (isWon) {
         result.innerText = `You won!\nThe word was: "${wordToGuess.word}"`;
-    } else if (finished === 2) {
-        title.classList.add("text-rb");
+    } else {
         result.innerText = `You lost :(\nThe word was: "${wordToGuess.word}"`;
     };
 };
@@ -99,7 +97,7 @@ function handleKey(key) {
         //hit some key to reset the board
     } else if (regex.test(key.toLowerCase())) {
         addLetter(key);
-    } else if (key === "Enter" && currentGuess.length === 5) {
+    } else if (key === "Enter" && currentGuess.length === ANSWER_LEN) {
         processEnter();
     } else if (key === "Backspace" && currentGuess.length > 0) {
         processBackspace();
