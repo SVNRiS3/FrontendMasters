@@ -1,7 +1,6 @@
 
 let rowString = "";
 let rowCount = 0;
-let letterCount = 0;
 let finished = 0;
 let processingInput = false;
 const rows = document.querySelectorAll(".row");
@@ -55,7 +54,6 @@ async function processEnter() {
             outputResult(wordToGuess);
         } else {
             rowString = "";
-            letterCount = 0;
             rowCount++;
             if (rowCount === rows.length) {
                 finished = 2;
@@ -70,9 +68,13 @@ async function processEnter() {
 };
 
 function addLetter(letter) {
-    rows[rowCount].childNodes[letterCount].innerText = letter;
-    letterCount++;
-    rowString += letter;
+    if (rowString.length < 5) {
+        rows[rowCount].childNodes[rowString.length].innerText = letter;
+        rowString += letter;
+    } else {
+        rowString = rowString.slice(0, -1);
+        rows[rowCount].childNodes[rowString.length].innerText = letter;
+    }
 };
 
 function outputResult(wordToGuess) {
@@ -87,16 +89,15 @@ function outputResult(wordToGuess) {
 
 function processBackspace() {
     if (processingInput) return;
-    letterCount--;
     rowString = rowString.slice(0, -1);
-    rows[rowCount].childNodes[letterCount].innerText = "";
+    rows[rowCount].childNodes[rowString.length].innerText = "";
 }
 
 function handleKey(key) {
     const regex = /^[a-zA-Z]$/;
     if (finished > 0) {
         //hit some key to reset the board
-    } else if (regex.test(key.toLowerCase()) && rowString.length < 5) {
+    } else if (regex.test(key.toLowerCase())) {
         addLetter(key);
     } else if (key === "Enter" && rowString.length === 5) {
         processEnter();
