@@ -42,12 +42,11 @@ function colorLetters(wordToGuess) {
     };
 };
 
-async function processEnter() {
+async function processEnter(wordToGuess) {
     if (processingInput) return;
     processingInput = true;
     waitAnimation.classList.remove('none');
     const isValid = await getWord(URLPOST, "POST", { "word": currentGuess });
-    const wordToGuess = await getWord(URLGET, "GET");
     if (isValid.validWord) {
         colorLetters(wordToGuess);
         if (wordToGuess.word === currentGuess) {
@@ -93,23 +92,28 @@ function processBackspace() {
     rows[currentRow].childNodes[currentGuess.length].innerText = "";
 }
 
-function handleKey(key) {
+function handleKey(key, wordToGuess) {
     const regex = /^[a-zA-Z]$/;
     if (done) {
         //hit some key to reset the board
     } else if (regex.test(key.toLowerCase())) {
         addLetter(key);
     } else if (key === "Enter" && currentGuess.length === ANSWER_LEN) {
-        processEnter();
+        processEnter(wordToGuess);
     } else if (key === "Backspace" && currentGuess.length > 0) {
         processBackspace();
     };
 };
 
-function init() {
+async function init() {
+    processingInput = true;
+    waitAnimation.classList.remove('none');
+    const wordToGuess = await getWord(URLGET, "GET");
+    processingInput = false;
+    waitAnimation.classList.add('none');
     document.addEventListener("keydown", (e) => {
         if (!e.repeat) {
-            handleKey(e.key);
+            handleKey(e.key, wordToGuess);
         };
     });
 };
