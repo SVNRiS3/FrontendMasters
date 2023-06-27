@@ -1,4 +1,5 @@
 const ANSWER_LEN = 5;
+let done = false;
 let currentGuess = "";
 let currentRow = 0;
 let finished = 0;
@@ -83,6 +84,7 @@ function outputResult(wordToGuess, isWon) {
     } else {
         result.innerText = `You lost :(\nThe word was: "${wordToGuess.word}"`;
     };
+    done = true;
 };
 
 function processBackspace() {
@@ -93,7 +95,7 @@ function processBackspace() {
 
 function handleKey(key) {
     const regex = /^[a-zA-Z]$/;
-    if (finished > 0) {
+    if (done) {
         //hit some key to reset the board
     } else if (regex.test(key.toLowerCase())) {
         addLetter(key);
