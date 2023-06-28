@@ -43,7 +43,6 @@ function colorLetters(wordToGuess) {
 };
 
 async function processEnter(wordToGuess) {
-    if (processingInput) return;
     processingInput = true;
     waitAnimation.classList.remove('none');
     const isValid = await getWord(URLPOST, "POST", { "word": currentGuess });
@@ -66,13 +65,13 @@ async function processEnter(wordToGuess) {
 };
 
 function addLetter(letter) {
-    if (processingInput) return;
     if (currentGuess.length < ANSWER_LEN) {
         rows[currentRow].childNodes[currentGuess.length].innerText = letter;
         currentGuess += letter;
     } else {
         currentGuess = currentGuess.slice(0, -1);
         rows[currentRow].childNodes[currentGuess.length].innerText = letter;
+        currentGuess += letter;
     }
 };
 
@@ -87,12 +86,12 @@ function outputResult(wordToGuess, isWon) {
 };
 
 function processBackspace() {
-    if (processingInput) return;
     currentGuess = currentGuess.slice(0, -1);
     rows[currentRow].childNodes[currentGuess.length].innerText = "";
 }
 
 function handleKey(key, wordToGuess) {
+    rows[currentRow].childNodes.forEach(elem => elem.classList.remove('invalid'));
     const regex = /^[a-zA-Z]$/;
     if (done) {
         //hit some key to reset the board
@@ -112,7 +111,7 @@ async function init() {
     processingInput = false;
     waitAnimation.classList.add('none');
     document.addEventListener("keydown", (e) => {
-        if (!e.repeat) {
+        if (!e.repeat && !processingInput) {
             handleKey(e.key, wordToGuess);
         };
     });
